@@ -26,6 +26,7 @@ jobs:
         with:
           packages: |
             behave
+            behave-junit
 
       # Run behave
       #- name: Run behave test
@@ -37,12 +38,19 @@ jobs:
         id: build
         run: |
           mkdir -p build_outputs_folder
-          behave --format json --outfile build_outputs_folder/results.json
+          behave --junit --junit-directory build_outputs_folder
       
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
           path: build_outputs_folder/
+
+      - name: create an issue
+        uses: dacbd/create-issue-action@main
+        with:
+          token: ${{ github.token }}
+          title: Test issue
+          body: code is broken 
 
                 
