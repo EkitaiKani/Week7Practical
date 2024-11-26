@@ -28,8 +28,20 @@ jobs:
             behave
 
       # Run behave
-      - name: Run behave test
-        uses: cryptic-wizard/run-behave-tests@v0.4.0
+      #- name: Run behave test
+        #uses: cryptic-wizard/run-behave-tests@v0.4.0
+        #with:
+        #  test-output-name: results.xml
+        
+      - name: Build behave output
+        id: build
+        run: |
+          behave --format xml --outfile results.xml
+
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
         with:
-          test-output-name: results.xml
+          path: build_outputs_folder/
+        
                 
