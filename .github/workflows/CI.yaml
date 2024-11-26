@@ -22,7 +22,7 @@ jobs:
 
       # install behave
       - name: Setup Behave
-      - uses: cryptic-wizard/run-behave-tests@v0.4.0
+        uses: cryptic-wizard/run-behave-tests@v0.4.0
         with:
           test-path: Week7Practical
           test-output-name: results.txt
