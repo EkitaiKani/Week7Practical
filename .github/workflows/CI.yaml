@@ -36,12 +36,13 @@ jobs:
       - name: Build behave output
         id: build
         run: |
-          behave --format json --outfile results.json
-
+          mkdir -p build_outputs_folder
+          behave --format json --outfile build_outputs_folder/results.json
+      
       - name: Upload static files as artifact
         id: deployment
-        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        uses: actions/upload-pages-artifact@v3
         with:
           path: build_outputs_folder/
-        
+
                 
