@@ -26,7 +26,6 @@ jobs:
         with:
           packages: |
             behave
-            behave-junit
 
       # Run behave
       #- name: Run behave test
