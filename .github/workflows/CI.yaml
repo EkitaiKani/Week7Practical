@@ -31,5 +31,5 @@ jobs:
       - name: Run behave test
         uses: cryptic-wizard/run-behave-tests@v0.4.0
         with:
-          test-output-name: results.txt
+          test-output-name: results.xml
                 
