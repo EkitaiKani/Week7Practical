@@ -29,8 +29,6 @@ jobs:
 
       # Run behave
       - name: Run behave test
-        uses: cryptic-wizard/run-behave-tests@v0.4.0
-        with:
-          test-path: Week7Practical
-          test-output-name: results.txt
+        run: |
+          behave
                 
