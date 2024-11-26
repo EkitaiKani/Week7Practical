@@ -1,0 +1,17 @@
+name: CI Process
+run-name: ${{github.actor}} is learning Github Actions
+on: [push]
+jobs:
+  behave-testing:
+    # Setup of simple OS of choice
+    # Create VM with ubuntu OS
+    runs-on: ubuntu-latest
+    steps:
+    # Setup of environment for test
+      - name: Checkout
+        uses: actions/checkout@v4 
+      - name: List repo
+        run: |
+          ls
+
+        # install python
