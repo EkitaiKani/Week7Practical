@@ -45,8 +45,8 @@ jobs:
         with:
           path: build_outputs_folder/
 
-
       - name: create an issue
+        if: failure()  # Only run this step if the job fails
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ github.token }}
