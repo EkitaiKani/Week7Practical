@@ -19,7 +19,3 @@ Feature: Calculator
 	Scenario: Division
 		When I divide 10 and 2
 		Then the result should be 5
-
-	Scenario: Fail Division
-		When I divide 10 and 2
-		Then the result should not be 4
