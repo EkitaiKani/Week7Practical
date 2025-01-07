@@ -26,4 +26,9 @@ def step_when_result(context, expected):
     expected = int(expected)
     assert expected == context.result, \
         f"Expected {expected}, but got {context.result}"
-    
+
+@then(u'the result should not be {not_expected}')
+def step_when_result(context, expected):
+    not_expected = int(not_expected)
+    assert not_expected == context.result, \
+        f"Unexpected result {context.result}"

@@ -7,18 +7,18 @@ jobs:
     # Create VM with ubuntu OS
     runs-on: ubuntu-latest
     steps:
-    # Setup of environment for test
+      # Setup of environment for test
       - name: Checkout
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
       - name: List repo
         run: |
           ls
-          
+
       # install python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13' 
+          python-version: "3.13"
 
       # install behave
       - name: Setup Behave
@@ -29,16 +29,16 @@ jobs:
 
       # Run behave
       #- name: Run behave test
-        #uses: cryptic-wizard/run-behave-tests@v0.4.0
-        #with:
-        #  test-output-name: results.xml
-        
+      #uses: cryptic-wizard/run-behave-tests@v0.4.0
+      #with:
+      #  test-output-name: results.xml
+
       - name: Build behave output
         id: build
         run: |
           mkdir -p build_outputs_folder
           behave --junit --junit-directory build_outputs_folder
-      
+
       - name: Upload static files as artifact
         id: deployment
         # uses: actions/upload-pages-artifact@v3 # saves as .tar file
@@ -47,7 +47,7 @@ jobs:
           path: build_outputs_folder/
 
       - name: create an issue
-        if: failure()  # Only run this step if the job fails
+        if: failure() # Only run this step if the job fails
         uses: dacbd/create-issue-action@main
         with:
           token: ${{ github.token }}
@@ -55,20 +55,29 @@ jobs:
             [${{ github.workflow }}] failed during [${{ github.event_name }}]
           body: |
             ## Failure Report:
-            
+
             > [!IMPORTANT]
             > Details on failed run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    
+
             - Author: @${{ github.triggering_actor }}
             - Branch: `${{ github.ref }}`
             - Commit: ${{ github.sha }}
             - Workflow Path: `${{ github.workflow_ref }}`
-    
+
             - [ ] **Task**: Review failed run, fix the issue(s), and re-run until successful.
-    
+
             > This issue was created automatically by GitHub, 
             > through `dacbd/create-issue-action@main` action
             > and KemingHe's contribution.
             > **DO NOT** close this issue until resolved.
 
-                
+      # Week13 - Step 6b: Send Telegram Message on failure
+      - name: Send Telegram Message on Test Failure(s)
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+          -d chat_id="${TELEGRAM_CHAT_ID}" \
+          -d text="Review failed run, fix the issue(s), and re-run until successful."
